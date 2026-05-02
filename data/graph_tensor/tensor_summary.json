@@ -1,0 +1,26 @@
+{
+  "graph_dir": "data/graph",
+  "output_dir": "data/graph_tensor",
+  "num_nodes": 17262,
+  "node_types": [
+    "chunk",
+    "entity"
+  ],
+  "nodes_by_type": {
+    "chunk": 3534,
+    "entity": 13728
+  },
+  "num_base_relations": 24,
+  "num_relations_with_inverse": 48,
+  "num_target_edges": 39796,
+  "num_edges_with_inverse": 79592,
+  "skipped_edges": 0,
+  "embed_features": false,
+  "feat_dim": 0,
+  "files": {
+    "graph": "graph.pt",
+    "node2id": "node2id.json",
+    "id2node": "id2node.json",
+    "rel2id": "rel2id.json"
+  }
+}

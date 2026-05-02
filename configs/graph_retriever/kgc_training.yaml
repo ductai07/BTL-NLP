@@ -1,0 +1,26 @@
+# Cấu hình huấn luyện KGC DistMult — đường dẫn tương đối từ cwd khi chạy lệnh.
+graph:
+  tensor_dir: data/graph_tensor
+  build_relation_graph: false
+  mention_relation_key: is_mentioned_in
+
+training:
+  output_dir: outputs/graph_retriever/kgc_pretrained
+  device: cpu
+  embedding_dim: 128
+  lr: 0.001
+  epochs: 3
+  train_batch_size: 512
+  eval_batch_size: 16
+  num_negative: 128
+  strict_negative: true
+  adversarial_temperature: 1.0
+  fast_eval_queries: 800
+  log_every_steps: 50
+  eval_every_epoch: true
+  metrics:
+    - mrr
+    - mr
+    - hits@1
+    - hits@3
+    - hits@10

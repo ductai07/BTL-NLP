@@ -1,0 +1,6 @@
+#Tham chiếu mặc định inference (CLI ghi đè trực tiếp; file này để ôm ý các trường).
+tensor_dir: data/graph_tensor
+checkpoint: outputs/graph_retriever/kgc_pretrained/kgc_checkpoint.pt
+device: cpu
+top_k: 10
+candidate_scope: all

@@ -1,0 +1,96 @@
+{
+  "backend": "faiss",
+  "index_type": "IndexFlatIP",
+  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "embedding_source": "existing_faiss_index",
+  "source_index_dir": "D:/Project/BTL-NLP/data/index_bge",
+  "source_index_meta": {
+    "index_name": "all",
+    "model_name": "BAAI/bge-base-en-v1.5",
+    "chunks": 3534,
+    "dimension": 768,
+    "normalized_embeddings": true,
+    "metric": "inner_product_cosine",
+    "sources": [
+      "text",
+      "table",
+      "image"
+    ],
+    "index_path": "data/index_bge/all.faiss",
+    "chunk_ids_path": "data/index_bge/all_chunk_ids.json"
+  },
+  "tag_schema_fields": [
+    "named_entities",
+    "dates",
+    "industries",
+    "domains",
+    "sectors",
+    "organizations",
+    "partnerships",
+    "partners",
+    "dividends",
+    "products",
+    "locations"
+  ],
+  "source_chunks_file": "D:/Project/BTL-NLP/data/chunks/all_chunks_tagged_paper_schema.jsonl",
+  "limit": null,
+  "chunks_loaded": 3534,
+  "chunks_parsed": 3534,
+  "chunks_indexed": 3534,
+  "chunks_error_count": 0,
+  "normalization_warning_counts": {},
+  "dimension": 768,
+  "normalized_embeddings": true,
+  "metric": "inner_product_cosine",
+  "index_path": "D:/Project/BTL-NLP/data/index_tagged_chunks/chunks.faiss",
+  "chunk_ids_path": "D:/Project/BTL-NLP/data/index_tagged_chunks/chunk_ids.json",
+  "records_path": "D:/Project/BTL-NLP/data/index_tagged_chunks/records.jsonl",
+  "embeddings_path": "D:/Project/BTL-NLP/data/index_tagged_chunks/embeddings.npy",
+  "errors_path": "D:/Project/BTL-NLP/data/index_tagged_chunks/index_errors.jsonl",
+  "sample_record_metadata": {
+    "id": "text_73a5224d4e0d0dc4",
+    "modality": "text",
+    "source_pdf": "data/pdfs/AAPL_10-K_2025-10-31_0000320193-25-000079_aapl-20250927.pdf",
+    "source_html": "data/raw_filings/AAPL/10-K/AAPL_10-K_2025-10-31_0000320193-25-000079_aapl-20250927.htm",
+    "ticker": "AAPL",
+    "page": 1,
+    "page_start": 1,
+    "page_end": 3,
+    "sentence_start": 0,
+    "sentence_end": 18,
+    "num_sentences": 19,
+    "chunking_method": "bge_sentence_semantic",
+    "semantic_tags": {
+      "named_entities": [
+        "Apple Inc.",
+        "United States Securities and Exchange Commission",
+        "Nasdaq Stock Market LLC",
+        "Form 10-K"
+      ],
+      "dates": [
+        "September 27, 2025",
+        "March 28, 2025",
+        "October 17, 2025",
+        "2025-10-31"
+      ],
+      "industries": [],
+      "domains": [],
+      "sectors": [],
+      "organizations": [
+        "Apple Inc.",
+        "United States Securities and Exchange Commission",
+        "Nasdaq Stock Market LLC"
+      ],
+      "partnerships": [],
+      "partners": [],
+      "dividends": [],
+      "products": [],
+      "locations": [
+        "Washington, D.C.",
+        "Cupertino, California",
+        "California",
+        "United States"
+      ]
+    }
+  }
+}

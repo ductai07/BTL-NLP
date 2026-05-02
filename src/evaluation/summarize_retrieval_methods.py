@@ -11,6 +11,8 @@ DEFAULT_METHODS = [
     ("Text-only BGE", Path("outputs/retrieval_benchmark_report_text_only/metrics_summary.json")),
     ("Dense BGE", Path("outputs/retrieval_benchmark_report_all/metrics_summary.json")),
     ("Proposed", Path("outputs/retrieval_benchmark_report_method/metrics_summary.json")),
+    ("Proposed + Tag Boost", Path("outputs/retrieval_benchmark_report_method/metrics_summary.json")),
+    ("Proposed + Tag Filter", Path("outputs/retrieval_benchmark_report_method/metrics_summary.json")),
 ]
 
 
@@ -47,14 +49,31 @@ def main() -> None:
     method_rows = []
     for name, summary in summaries:
         metrics = summary["metrics"]["all"]
-        method_rows.append(
-            [
+        if name == "Proposed + Tag Boost":
+            if not summary.get("tag_aware"):
+                continue
+            method_rows.append([
+                name,
+                fmt(metrics.get("tag_boost_recall@5")),
+                fmt(metrics.get("tag_boost_recall@10")),
+                fmt(metrics.get("tag_boost_mrr@10")),
+            ])
+        elif name == "Proposed + Tag Filter":
+            if not summary.get("tag_aware"):
+                continue
+            method_rows.append([
+                name,
+                fmt(metrics.get("tag_filter_recall@5")),
+                fmt(metrics.get("tag_filter_recall@10")),
+                fmt(metrics.get("tag_filter_mrr@10")),
+            ])
+        else:
+            method_rows.append([
                 name,
                 fmt(metrics.get("recall@5")),
                 fmt(metrics.get("recall@10")),
                 fmt(metrics.get("mrr@10")),
-            ]
-        )
+            ])
 
     type_rows = []
     proposed = next((summary for name, summary in summaries if name == "Proposed"), None)

@@ -1,0 +1,13 @@
+{
+  "graph_dir": "data/graph",
+  "queries_path": "data/benchmark_report/queries_tagged.jsonl",
+  "output_root": "data/gfmrag_reasoning",
+  "data_name": "multifin_graph",
+  "documents": 3534,
+  "samples_total": 107,
+  "train_samples": 85,
+  "test_samples": 22,
+  "skipped_no_start": 3,
+  "skipped_no_target": 0,
+  "stage1_dir": "data/gfmrag_reasoning/multifin_graph/processed/stage1"
+}

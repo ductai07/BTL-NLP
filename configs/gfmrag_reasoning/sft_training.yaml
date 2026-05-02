@@ -1,0 +1,88 @@
+seed: 1024
+timeout: 60
+gfmrag_path: d:/Project/gfm-rag
+output_dir: outputs/gfmrag_reasoning
+save_pretrained: true
+load_model_from_pretrained: null
+disable_custom_rspmm: true
+
+datasets:
+  _target_: gfmrag.graph_index_datasets.GraphIndexDatasetV1
+  cfgs:
+    root: data/gfmrag_reasoning
+    force_reload: false
+    text_emb_model_cfgs:
+      _target_: gfmrag.text_emb_models.BaseTextEmbModel
+      text_emb_model_name: BAAI/bge-base-en-v1.5
+      normalize: false
+      batch_size: 32
+      query_instruct: null
+      passage_instruct: null
+      model_kwargs: null
+    target_type: entity
+    use_node_feat: false
+    use_edge_feat: false
+    use_relation_feat: true
+    inverse_relation_feat: text
+    skip_empty_target: true
+  train_names:
+    - multifin_graph
+  valid_names:
+    - multifin_graph
+  init_datasets: true
+  feat_dim: 768
+  max_datasets_in_memory: 1
+  data_loading_workers: 0
+
+model:
+  _target_: gfmrag.models.gfm_rag_v1.GNNRetriever
+  init_nodes_weight: true
+  init_nodes_type: chunk
+  ranker:
+    _target_: gfmrag.models.gfm_rag_v1.rankers.IDFWeightedTopKRanker
+    top_k: 20
+  entity_model:
+    _target_: gfmrag.models.ultra.models.QueryNBFNet
+    input_dim: 128
+    hidden_dims: [128, 128]
+    message_func: distmult
+    aggregate_func: sum
+    short_cut: true
+    layer_norm: true
+
+losses:
+  - name: bce_loss
+    loss:
+      _target_: gfmrag.losses.BCELoss
+      adversarial_temperature: 0.2
+    weight: 0.3
+    target_node_type: chunk
+  - name: pcr_loss
+    loss:
+      _target_: gfmrag.losses.ListCELoss
+    weight: 0.7
+    target_node_type: chunk
+
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 5.0e-4
+
+trainer:
+  _target_: gfmrag.trainers.SFTTrainer
+  args:
+    _target_: gfmrag.trainers.TrainingArguments
+    train_batch_size: 2
+    eval_batch_size: 2
+    num_epoch: 5
+    logging_steps: 10
+    max_steps_per_epoch: null
+    resume_from_checkpoint: null
+    do_train: true
+    do_eval: true
+    do_predict: false
+    save_best_only: true
+    load_best_model_at_end: true
+    metric_for_best_model: chunk_mrr
+    dtype: float32
+  metrics: [mrr, hits@1, hits@5, hits@10, hits@20, hits@50, hits@100]
+  target_types: [chunk]

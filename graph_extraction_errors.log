@@ -1,0 +1,56 @@
+2026-05-01 01:57:33,929 INFO __main__: Graph extraction done: {"input_path": "data/chunks/all_chunks.jsonl", "output_path": "data/graph/chunk_graph_sample.jsonl", "model": "OPENAI_MODEL from env or default in client", "chunks_total": 1, "chunks_processed": 1, "chunks_success": 1, "chunks_failed": 0, "unique_entities": 18, "unique_triples": 16, "resume": false}
+2026-05-01 02:06:10,728 INFO __main__: Graph extraction done: {"input_path": "data/chunks/all_chunks.jsonl", "output_path": "data/graph/chunk_graph_one_chunk_demo.jsonl", "model": "OPENAI_MODEL from env or default in client", "chunks_total": 1, "chunks_processed": 1, "chunks_success": 1, "chunks_failed": 0, "unique_entities": 7, "unique_triples": 4, "resume": false}
+2026-05-01 02:13:26,813 INFO __main__: Graph extraction done: {"input_path": "data/chunks/all_chunks.jsonl", "output_path": "data/graph/chunk_graph_one_chunk_improved.jsonl", "model": "OPENAI_MODEL from env or default in client", "chunks_total": 1, "chunks_processed": 1, "chunks_success": 1, "chunks_failed": 0, "unique_entities": 7, "unique_triples": 8, "resume": false}
+2026-05-01 02:14:13,406 INFO __main__: Graph extraction done: {"input_path": "data/chunks/all_chunks.jsonl", "output_path": "data/graph/chunk_graph_one_chunk_improved_v2.jsonl", "model": "OPENAI_MODEL from env or default in client", "chunks_total": 1, "chunks_processed": 1, "chunks_success": 1, "chunks_failed": 0, "unique_entities": 7, "unique_triples": 22, "resume": false}
+2026-05-01 02:19:48,217 INFO __main__: Graph extraction done: {"input_path": "data/chunks/all_chunks.jsonl", "output_path": "data/graph/chunk_graph_one_chunk_finance_prompt.jsonl", "model": "OPENAI_MODEL from env or default in client", "chunks_total": 1, "chunks_processed": 1, "chunks_success": 1, "chunks_failed": 0, "unique_entities": 28, "unique_triples": 6, "resume": false}
+2026-05-01 02:23:39,848 INFO __main__: Graph extraction done: {"input_path": "data/graph/chunks_finance_delta_sample20.jsonl", "output_path": "data/graph/chunk_graph_finance_delta_sample20.jsonl", "model": "OPENAI_MODEL from env or default in client", "chunks_total": 20, "chunks_processed": 20, "chunks_success": 20, "chunks_failed": 0, "unique_entities": 322, "unique_triples": 51, "resume": false}
+2026-05-01 02:26:03,600 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 1 column 9287 (char 9286)
+2026-05-01 02:27:20,264 INFO __main__: Graph extraction done: {"input_path": "data/graph/chunks_finance_delta_sample20.jsonl", "output_path": "data/graph/chunk_graph_finance_delta_sample20_focus.jsonl", "model": "OPENAI_MODEL from env or default in client", "chunks_total": 20, "chunks_processed": 20, "chunks_success": 20, "chunks_failed": 0, "unique_entities": 170, "unique_triples": 35, "resume": false}
+2026-05-01 02:29:19,656 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 134 column 6 (char 7740)
+2026-05-01 02:30:08,339 ERROR graph_extraction.llm_openie_model: Loi parse named entities: Unterminated string starting at: line 198 column 5 (char 2467)
+2026-05-01 02:30:19,586 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 1 column 6862 (char 6861)
+2026-05-01 02:30:44,242 INFO __main__: Graph extraction done: {"input_path": "data/graph/chunks_finance_delta_sample20.jsonl", "output_path": "data/graph/chunk_graph_finance_delta_sample20_focus_v2.jsonl", "model": "OPENAI_MODEL from env or default in client", "chunks_total": 20, "chunks_processed": 20, "chunks_success": 20, "chunks_failed": 0, "unique_entities": 164, "unique_triples": 67, "resume": false}
+2026-05-01 02:37:38,828 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 134 column 20 (char 6321)
+2026-05-01 02:40:32,384 ERROR graph_extraction.llm_openie_model: Loi parse named entities: Unterminated string starting at: line 1 column 369 (char 368)
+2026-05-01 02:46:41,544 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 1 column 9746 (char 9745)
+2026-05-01 02:50:01,252 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 93 column 49 (char 7321)
+2026-05-01 02:50:22,528 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 76 column 29 (char 8326)
+2026-05-01 02:50:39,661 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 17 column 20 (char 1591)
+2026-05-01 02:51:26,472 ERROR graph_extraction.llm_openie_model: LLM request failed: LLM returned empty content.
+2026-05-01 02:52:00,494 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 95 column 45 (char 7172)
+2026-05-01 02:55:39,544 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 1 column 1170 (char 1169)
+2026-05-01 02:55:55,313 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 1 column 5759 (char 5758)
+2026-05-01 03:02:30,875 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 61 column 30 (char 7925)
+2026-05-01 03:18:04,605 ERROR graph_extraction.llm_openie_model: Loi parse triples: Expecting value: line 97 column 57 (char 5890)
+2026-05-01 03:19:13,513 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 127 column 21 (char 5396)
+2026-05-01 03:19:56,814 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 103 column 6 (char 4869)
+2026-05-01 03:22:15,629 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 1 column 8256 (char 8255)
+2026-05-01 03:38:21,660 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 59 column 34 (char 6396)
+2026-05-01 03:39:21,797 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 76 column 39 (char 7708)
+2026-05-01 03:45:00,117 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 87 column 32 (char 10256)
+2026-05-01 03:47:00,295 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 102 column 24 (char 5873)
+2026-05-01 03:48:40,474 ERROR graph_extraction.llm_openie_model: Loi parse triples: Expecting value: line 1 column 9331 (char 9330)
+2026-05-01 03:52:52,937 ERROR graph_extraction.llm_openie_model: Loi parse named entities: Unterminated string starting at: line 286 column 5 (char 4307)
+2026-05-01 03:59:34,637 ERROR graph_extraction.llm_openie_model: Loi parse named entities: Unterminated string starting at: line 200 column 5 (char 4171)
+2026-05-01 04:02:10,660 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 31 column 6 (char 2882)
+2026-05-01 04:05:29,418 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 79 column 38 (char 6949)
+2026-05-01 04:08:34,882 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 85 column 30 (char 6877)
+2026-05-01 04:09:12,114 ERROR graph_extraction.llm_openie_model: Loi parse named entities: Expecting value: line 309 column 14 (char 4471)
+2026-05-01 04:11:04,684 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 91 column 40 (char 6343)
+2026-05-01 04:12:59,801 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 122 column 6 (char 8351)
+2026-05-01 04:15:41,959 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 5 column 38 (char 284)
+2026-05-01 04:16:55,192 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 117 column 24 (char 5204)
+2026-05-01 04:17:07,074 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 78 column 64 (char 6725)
+2026-05-01 04:19:40,693 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 1 column 8516 (char 8515)
+2026-05-01 04:21:20,420 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 79 column 38 (char 7706)
+2026-05-01 04:21:41,845 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 1 column 9333 (char 9332)
+2026-05-01 04:26:53,473 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 1 column 6797 (char 6796)
+2026-05-01 04:27:08,892 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 121 column 6 (char 6008)
+2026-05-01 04:29:37,599 ERROR graph_extraction.llm_openie_model: Loi parse named entities: Unterminated string starting at: line 458 column 5 (char 5616)
+2026-05-01 04:31:23,240 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 61 column 59 (char 7171)
+2026-05-01 04:32:59,023 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 1 column 9252 (char 9251)
+2026-05-01 04:33:31,510 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 60 column 6 (char 5608)
+2026-05-01 04:34:26,533 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 41 column 25 (char 8376)
+2026-05-01 05:16:28,931 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 1 column 6481 (char 6480)
+2026-05-01 06:05:59,705 ERROR graph_extraction.llm_openie_model: Loi parse triples: Unterminated string starting at: line 112 column 30 (char 5357)
+2026-05-01 06:30:38,647 INFO __main__: Graph extraction done: {"input_path": "data/chunks/all_chunks.jsonl", "output_path": "data/graph/chunk_graph.jsonl", "model": "OPENAI_MODEL from env or default in client", "chunks_total": 3534, "chunks_processed": 3534, "chunks_success": 3412, "chunks_failed": 0, "unique_entities": 14633, "unique_triples": 7607, "resume": true, "enable_delta_heuristic": false}

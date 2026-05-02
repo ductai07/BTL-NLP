@@ -1,0 +1,478 @@
+[
+  {
+    "id": "r_image_023",
+    "question": "Which Home Depot filing image contains a chart with visible labels or values such as grid, lines, squares, cells?",
+    "start_nodes": {
+      "entity": [
+        "entity:b48f54115140"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_9d97935380a34906"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/HD_10-K_2026-03-18_0001628280-26-019436_hd-20260201.pdf",
+      "type": "image",
+      "answer": "chart"
+    }
+  },
+  {
+    "id": "r_image_024",
+    "question": "Which Home Depot filing image contains a chart with visible labels or values such as grid, lines, squares, black and white?",
+    "start_nodes": {
+      "entity": [
+        "entity:b48f54115140"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_4762b6c9d134ee68"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/HD_10-K_2026-03-18_0001628280-26-019436_hd-20260201.pdf",
+      "type": "image",
+      "answer": "chart"
+    }
+  },
+  {
+    "id": "r_image_025",
+    "question": "Which Home Depot filing image contains a chart with visible labels or values such as grid, lines, squares, grayscale?",
+    "start_nodes": {
+      "entity": [
+        "entity:b48f54115140"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_bcf83e5ae246aa08"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/HD_10-K_2026-03-18_0001628280-26-019436_hd-20260201.pdf",
+      "type": "image",
+      "answer": "chart"
+    }
+  },
+  {
+    "id": "r_multi_001",
+    "question": "For Apple, use the narrative discussion, the relevant financial table, and the line chart image to support this question: What was Apple's Products gross margin for 2025?",
+    "start_nodes": {
+      "entity": [
+        "entity:1f3870be274f",
+        "entity:312351bff079",
+        "entity:86024cad1e83"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_9c0c8296028ae436",
+        "chunk:table_d605ad3446c8aa05",
+        "chunk:text_f75e4978123052e1"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/AAPL_10-K_2025-10-31_0000320193-25-000079_aapl-20250927.pdf",
+      "type": "multimodal",
+      "answer": "112,887"
+    }
+  },
+  {
+    "id": "r_multi_002",
+    "question": "For Apple, use the narrative discussion, the relevant financial table, and the line chart image to support this question: What was Apple's Audit Fees (1) for 2025 ($)?",
+    "start_nodes": {
+      "entity": [
+        "entity:1f3870be274f",
+        "entity:312351bff079"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_876f45f7bb02944c",
+        "chunk:table_693a1b93bc544a72",
+        "chunk:text_9d54e22f08f130f4"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/AAPL_DEF_14A_2026-01-08_0001308179-26-000008_aapl014016-def14a.pdf",
+      "type": "multimodal",
+      "answer": "24,703"
+    }
+  },
+  {
+    "id": "r_multi_003",
+    "question": "For Home Depot, use the narrative discussion, the relevant financial table, and the chart image to support this question: What was Home Depot's Net sales for 2025?",
+    "start_nodes": {
+      "entity": [
+        "entity:312351bff079",
+        "entity:b48f54115140"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_fcc68dfd09e3da5a",
+        "chunk:table_6464daaa3c41bd73",
+        "chunk:text_61f63e1299d22630"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/HD_10-K_2026-03-18_0001628280-26-019436_hd-20260201.pdf",
+      "type": "multimodal",
+      "answer": "164,683"
+    }
+  },
+  {
+    "id": "r_multi_004",
+    "question": "For Home Depot, use the narrative discussion, the relevant financial table, and the chart image to support this question: What was Home Depot's Cash and cash equivalents for August 3, 2025?",
+    "start_nodes": {
+      "entity": [
+        "entity:b48f54115140",
+        "entity:e5a5b240baca"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_381cb8e104f983f5",
+        "chunk:table_ee46c454cb9d5576",
+        "chunk:text_67d4482d2fdd76d6"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/HD_10-Q_2025-08-26_0000354950-25-000217_hd-20250803.pdf",
+      "type": "multimodal",
+      "answer": "2,804"
+    }
+  },
+  {
+    "id": "r_multi_005",
+    "question": "For Home Depot, use the narrative discussion, the relevant financial table, and the chart image to support this question: What was Home Depot's Cash and cash equivalents for November 2, 2025?",
+    "start_nodes": {
+      "entity": [
+        "entity:b48f54115140"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_78a8f70f397a0687",
+        "chunk:table_50eaf3d8b10f4dc8",
+        "chunk:text_531f77b4b6a78659"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/HD_10-Q_2025-11-25_0001628280-25-053868_hd-20251102.pdf",
+      "type": "multimodal",
+      "answer": "1,684"
+    }
+  },
+  {
+    "id": "r_multi_006",
+    "question": "For Intuit, use the narrative discussion, the relevant financial table, and the bar chart image to support this question: What was Intuit's Service for October 31, 2025?",
+    "start_nodes": {
+      "entity": [
+        "entity:f89affb34da2",
+        "entity:f9a3cdc632c0"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_6b97f86a0d9e6033",
+        "chunk:table_1bc93d7d547237b2",
+        "chunk:text_c6386d2a724fa871"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/INTU_10-Q_2025-11-20_0000896878-25-000048_intu-20251031.pdf",
+      "type": "multimodal",
+      "answer": "3,497"
+    }
+  },
+  {
+    "id": "r_multi_007",
+    "question": "For Intuit, use the narrative discussion, the relevant financial table, and the bar chart image to support this question: What was Intuit's Service for January 31, 2026?",
+    "start_nodes": {
+      "entity": [
+        "entity:9bb2ffd4c9c6",
+        "entity:f89affb34da2"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_4131079931fac595",
+        "chunk:table_27a0af67e206cc16",
+        "chunk:text_9f8684f2fa071d09"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/INTU_10-Q_2026-02-26_0000896878-26-000014_intu-20260131.pdf",
+      "type": "multimodal",
+      "answer": "3,872"
+    }
+  },
+  {
+    "id": "r_multi_008",
+    "question": "For Morgan Stanley, use the narrative discussion, the relevant financial table, and the chart image to support this question: What was Morgan Stanley's Net revenues for 2025?",
+    "start_nodes": {
+      "entity": [
+        "entity:312351bff079",
+        "entity:59cd88a059a0"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_d2d29bb66975bb06",
+        "chunk:table_dfdc81d3f153a508",
+        "chunk:text_a662aa2572a7a92b"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/MS_10-K_2026-02-19_0000895421-26-000086_ms-20251231.pdf",
+      "type": "multimodal",
+      "answer": "70,645"
+    }
+  },
+  {
+    "id": "r_multi_009",
+    "question": "For Morgan Stanley, use the narrative discussion, the relevant financial table, and the bar chart image to support this question: What was Morgan Stanley's Audit Fees (1) for 2025 ($)?",
+    "start_nodes": {
+      "entity": [
+        "entity:312351bff079",
+        "entity:59cd88a059a0"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_63007ca8bf251abe",
+        "chunk:table_0d3abc7266a17845",
+        "chunk:text_bc1118e3bb3d223a"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/MS_DEF_14A_2026-04-02_0001140361-26-012975_ny20058185x1_def14a.pdf",
+      "type": "multimodal",
+      "answer": "66.2"
+    }
+  },
+  {
+    "id": "r_multi_010",
+    "question": "For NVIDIA, use the narrative discussion, the relevant financial table, and the line chart image to support this question: What was NVIDIA's Revenue for Jan 25, 2026?",
+    "start_nodes": {
+      "entity": [
+        "entity:49442c3e476a",
+        "entity:540df7f83845"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_216094265e41006a",
+        "chunk:table_9ee0681f26663db6",
+        "chunk:text_b57d7b63074b8861"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/NVDA_10-K_2026-02-25_0001045810-26-000021_nvda-20260125.pdf",
+      "type": "multimodal",
+      "answer": "215,938"
+    }
+  },
+  {
+    "id": "r_multi_011",
+    "question": "For Apple, use the narrative discussion, the relevant financial table, and the line chart image to support this question: What was Apple's Services gross margin for 2025?",
+    "start_nodes": {
+      "entity": [
+        "entity:1f3870be274f",
+        "entity:312351bff079"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_9c0c8296028ae436",
+        "chunk:table_d605ad3446c8aa05",
+        "chunk:text_f75e4978123052e1"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/AAPL_10-K_2025-10-31_0000320193-25-000079_aapl-20250927.pdf",
+      "type": "multimodal",
+      "answer": "82,314"
+    }
+  },
+  {
+    "id": "r_multi_012",
+    "question": "For Apple, use the narrative discussion, the relevant financial table, and the line chart image to support this question: What was Apple's Audit-Related Fees (2) for 2025 ($)?",
+    "start_nodes": {
+      "entity": [
+        "entity:1f3870be274f",
+        "entity:312351bff079",
+        "entity:367c2e2e259c"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_876f45f7bb02944c",
+        "chunk:table_693a1b93bc544a72",
+        "chunk:text_9d54e22f08f130f4"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/AAPL_DEF_14A_2026-01-08_0001308179-26-000008_aapl014016-def14a.pdf",
+      "type": "multimodal",
+      "answer": "2,274"
+    }
+  },
+  {
+    "id": "r_multi_013",
+    "question": "For Home Depot, use the narrative discussion, the relevant financial table, and the chart image to support this question: What was Home Depot's Receivables, net for August 3, 2025?",
+    "start_nodes": {
+      "entity": [
+        "entity:b48f54115140",
+        "entity:e5a5b240baca"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_381cb8e104f983f5",
+        "chunk:table_ee46c454cb9d5576",
+        "chunk:text_67d4482d2fdd76d6"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/HD_10-Q_2025-08-26_0000354950-25-000217_hd-20250803.pdf",
+      "type": "multimodal",
+      "answer": "5,878"
+    }
+  },
+  {
+    "id": "r_multi_014",
+    "question": "For Home Depot, use the narrative discussion, the relevant financial table, and the chart image to support this question: What was Home Depot's Receivables, net for November 2, 2025?",
+    "start_nodes": {
+      "entity": [
+        "entity:6c75f8da9772",
+        "entity:b48f54115140"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_78a8f70f397a0687",
+        "chunk:table_50eaf3d8b10f4dc8",
+        "chunk:text_531f77b4b6a78659"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/HD_10-Q_2025-11-25_0001628280-25-053868_hd-20251102.pdf",
+      "type": "multimodal",
+      "answer": "6,765"
+    }
+  },
+  {
+    "id": "r_multi_015",
+    "question": "For Intuit, use the narrative discussion, the relevant financial table, and the bar chart image to support this question: What was Intuit's Product and other for October 31, 2025?",
+    "start_nodes": {
+      "entity": [
+        "entity:f89affb34da2",
+        "entity:f9a3cdc632c0"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_6b97f86a0d9e6033",
+        "chunk:table_1bc93d7d547237b2",
+        "chunk:text_c6386d2a724fa871"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/INTU_10-Q_2025-11-20_0000896878-25-000048_intu-20251031.pdf",
+      "type": "multimodal",
+      "answer": "388"
+    }
+  },
+  {
+    "id": "r_multi_016",
+    "question": "For Intuit, use the narrative discussion, the relevant financial table, and the bar chart image to support this question: What was Intuit's Product and other for January 31, 2026?",
+    "start_nodes": {
+      "entity": [
+        "entity:9bb2ffd4c9c6",
+        "entity:f89affb34da2"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_4131079931fac595",
+        "chunk:table_27a0af67e206cc16",
+        "chunk:text_9f8684f2fa071d09"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/INTU_10-Q_2026-02-26_0000896878-26-000014_intu-20260131.pdf",
+      "type": "multimodal",
+      "answer": "779"
+    }
+  },
+  {
+    "id": "r_multi_017",
+    "question": "For Morgan Stanley, use the narrative discussion, the relevant financial table, and the chart image to support this question: What was Morgan Stanley's Earnings applicable to Morgan Stanley common shareholders for 2025?",
+    "start_nodes": {
+      "entity": [
+        "entity:312351bff079",
+        "entity:59cd88a059a0"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_d2d29bb66975bb06",
+        "chunk:table_dfdc81d3f153a508",
+        "chunk:text_a662aa2572a7a92b"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/MS_10-K_2026-02-19_0000895421-26-000086_ms-20251231.pdf",
+      "type": "multimodal",
+      "answer": "16,249"
+    }
+  },
+  {
+    "id": "r_multi_018",
+    "question": "For Morgan Stanley, use the narrative discussion, the relevant financial table, and the bar chart image to support this question: What was Morgan Stanley's Audit-Related Fees (2) for 2025 ($)?",
+    "start_nodes": {
+      "entity": [
+        "entity:312351bff079",
+        "entity:59cd88a059a0"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_63007ca8bf251abe",
+        "chunk:table_0d3abc7266a17845",
+        "chunk:text_bc1118e3bb3d223a"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/MS_DEF_14A_2026-04-02_0001140361-26-012975_ny20058185x1_def14a.pdf",
+      "type": "multimodal",
+      "answer": "9.6"
+    }
+  },
+  {
+    "id": "r_multi_019",
+    "question": "For NVIDIA, use the narrative discussion, the relevant financial table, and the line chart image to support this question: What was NVIDIA's Gross margin for Jan 25, 2026?",
+    "start_nodes": {
+      "entity": [
+        "entity:49442c3e476a",
+        "entity:540df7f83845"
+      ]
+    },
+    "target_nodes": {
+      "chunk": [
+        "chunk:image_216094265e41006a",
+        "chunk:table_9ee0681f26663db6",
+        "chunk:text_b57d7b63074b8861"
+      ]
+    },
+    "metadata": {
+      "source_pdf": "data/pdfs/NVDA_10-K_2026-02-25_0001045810-26-000021_nvda-20260125.pdf",
+      "type": "multimodal",
+      "answer": "71.1"
+    }
+  }
+]

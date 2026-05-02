@@ -1,12 +1,39 @@
-sentence-transformers
-faiss-cpu
+# Core ML / Graph training
+torch
+torch-geometric
+ninja
 numpy
 scipy
+pandas
 scikit-learn
+tqdm
+
+# GFM-RAG training stack
+hydra-core
+omegaconf
+easydict
+datasets
+wandb
+transformers
+sentence-transformers
+python-dotenv
+pyyaml
+
+# Thư viện thường gặp khi load embedding/model của tác giả
+einops
+openai
+tiktoken
+
+# Retrieval / indexing
+faiss-cpu
+
+# Document / ingestion pipeline
 pymupdf
+pdfminer.six
 beautifulsoup4
 requests
-pdfminer.six
 pillow
-python-dotenv
 playwright
+
+# Optional: graph partition cho split-graph training
+pymetis

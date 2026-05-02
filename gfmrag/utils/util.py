@@ -1,0 +1,114 @@
+import json
+import os
+
+import torch
+from hydra.utils import get_class, instantiate
+from omegaconf import DictConfig, OmegaConf
+from transformers.utils import cached_file
+
+from gfmrag.graph_index_datasets import GraphIndexDataset
+
+
+def save_model_to_pretrained(
+    model: torch.nn.Module, cfg: DictConfig, path: str
+) -> None:
+    os.makedirs(path, exist_ok=True)
+    model_config = OmegaConf.to_container(cfg.model, resolve=True)
+    model_config["feat_dim"] = model.feat_dim
+    dataset_cls = get_class(cfg.datasets._target_)
+    assert issubclass(dataset_cls, GraphIndexDataset)
+    config = {
+        "text_emb_model_config": OmegaConf.to_container(
+            cfg.datasets.cfgs.text_emb_model_cfgs
+        ),
+        "dataset_config": dataset_cls.export_config_dict(cfg.datasets.cfgs),
+        "model_config": model_config,
+    }
+
+    with open(os.path.join(path, "config.json"), "w") as f:
+        json.dump(config, f, indent=4)
+    torch.save({"model": model.state_dict()}, os.path.join(path, "model.pth"))
+
+
+def load_model_from_pretrained(path: str) -> tuple[torch.nn.Module, dict]:
+    config_path = cached_file(path, "config.json")
+    if config_path is None:
+        raise FileNotFoundError(f"config.json not found in {path}")
+    with open(config_path) as f:
+        config = json.load(f)
+    model = instantiate(config["model_config"])
+    model_path = cached_file(path, "model.pth")
+    if model_path is None:
+        raise FileNotFoundError(f"model.pth not found in {path}")
+    state = torch.load(model_path, map_location="cpu", weights_only=True)
+    model.load_state_dict(state["model"])
+    return model, config
+
+
+def init_multi_dataset(cfg: DictConfig, world_size: int, rank: int) -> list:
+    """
+    Pre-rocess the dataset in each rank
+    Args:
+        cfg (DictConfig): The config file
+        world_size (int): The number of GPUs
+        rank (int): The rank of the current GPU
+    Returns:
+        list: The list of feat_dim in each dataset
+    """
+    data_name_list = []
+    # Remove duplicates in the list
+    for data_name in cfg.datasets.train_names + cfg.datasets.valid_names:
+        if data_name not in data_name_list:
+            data_name_list.append(data_name)
+
+    dataset_cls = get_class(cfg.datasets._target_)
+    # Make sure there is no overlap datasets between different ranks
+    feat_dim_list = []
+    for i, data_name in enumerate(data_name_list):
+        if i % world_size == rank:
+            dataset = dataset_cls(**cfg.datasets.cfgs, data_name=data_name)
+            if dataset.graph.x is not None:
+                assert (
+                    len(dataset.graph.x) == dataset.graph.num_nodes
+                )  # Check if the number of nodes matches the feature dimension
+                assert (
+                    dataset.graph.x.shape[1] == dataset.feat_dim
+                )  # Check if the feature dimension matches
+            if dataset.graph.rel_attr is not None:
+                assert (
+                    len(dataset.graph.rel_attr) == dataset.graph.num_relations
+                )  # Check if the number of relations matches
+                assert (
+                    dataset.graph.rel_attr.shape[1] == dataset.feat_dim
+                )  # Check if the feature dimension matches
+            if dataset.graph.edge_attr is not None:
+                assert (
+                    len(dataset.graph.edge_attr) == dataset.graph.num_edges
+                )  # Check if the number of edges matches
+                assert (
+                    dataset.graph.edge_attr.shape[1] == dataset.feat_dim
+                )  # Check if the feature dimension matches
+            feat_dim_list.append(dataset.feat_dim)
+    # Gather the feat_dim from all processes
+    if world_size > 1:
+        gathered_lists: list[list[int]] = [[] for _ in range(world_size)]
+        torch.distributed.all_gather_object(gathered_lists, feat_dim_list)
+        # Flatten the list of lists
+        all_feat_dim_list = [item for sublist in gathered_lists for item in sublist]
+    else:
+        all_feat_dim_list = feat_dim_list
+
+    return all_feat_dim_list
+
+
+def check_all_files_exist(file_paths: list) -> bool:
+    """
+    Check if all files in the list exist.
+
+    Args:
+        file_paths (list): List of file paths to check.
+
+    Returns:
+        bool: True if all files exist, False otherwise.
+    """
+    return all(os.path.exists(file_path) for file_path in file_paths)

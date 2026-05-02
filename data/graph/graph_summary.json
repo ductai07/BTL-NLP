@@ -1,0 +1,13 @@
+{
+  "input_path": "data/chunks/all_chunks.jsonl",
+  "output_path": "data/graph/chunk_graph.jsonl",
+  "model": "OPENAI_MODEL from env or default in client",
+  "chunks_total": 3534,
+  "chunks_processed": 3534,
+  "chunks_success": 3412,
+  "chunks_failed": 0,
+  "unique_entities": 14633,
+  "unique_triples": 7607,
+  "resume": true,
+  "enable_delta_heuristic": false
+}
