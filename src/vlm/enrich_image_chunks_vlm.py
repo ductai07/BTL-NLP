@@ -79,6 +79,27 @@ def summarize_with_retries(image_path: Path, max_image_side: int, retries: int, 
     raise RuntimeError(f"VLM failed after {retries} attempts for {image_path}: {last_error}")
 
 
+def fallback_output(row: dict, error: Exception) -> dict:
+    image_name = Path(row.get("image_path") or row.get("crop_path") or "").name
+    return {
+        "visual_type": "unreadable",
+        "title": None,
+        "summary": (
+            "VLM summarization failed for this image. "
+            f"The image asset is {image_name or 'unknown'} from an SEC filing."
+        ),
+        "x_axis": None,
+        "y_axis": None,
+        "legend": [],
+        "metrics": [],
+        "periods": [],
+        "key_values": [],
+        "trend": "unreadable",
+        "evidence": "Fallback record because the VLM request failed.",
+        "error": str(error),
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Summarize cropped image chunks with NVIDIA Gemma Vision.")
     parser.add_argument("--input", type=Path, default=CHUNK_DIR / "image_chunks_pdfminer.jsonl")
@@ -138,13 +159,18 @@ def main() -> None:
             parsed = cached.get("vlm_output") or {}
             summary = cached.get("summary") or parsed.get("summary") or ""
         else:
-            raw = summarize_with_retries(
-                image_path=image_path,
-                max_image_side=args.max_image_side,
-                retries=args.retries,
-                timeout=args.timeout,
-            )
-            parsed = parse_jsonish(raw)
+            raw = ""
+            try:
+                raw = summarize_with_retries(
+                    image_path=image_path,
+                    max_image_side=args.max_image_side,
+                    retries=args.retries,
+                    timeout=args.timeout,
+                )
+                parsed = parse_jsonish(raw)
+            except Exception as exc:
+                print(f"  VLM failed permanently, using image fallback: {exc}")
+                parsed = fallback_output(row, exc)
             summary = parsed.get("summary") or raw.strip()
             cached_by_path[cache_key] = {"summary": summary, "vlm_output": parsed}
         row = dict(row)

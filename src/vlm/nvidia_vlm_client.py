@@ -113,27 +113,39 @@ TABLE_PROMPT = """You are extracting a financial table from an SEC filing image.
 Return JSON only with these keys:
 - summary: one short sentence describing what the table reports
 - table_json: a structured JSON object preserving row labels, column labels, values, and units when visible
+- table_metadata: object with title, unit, periods, metrics, row_labels, column_labels
+- key_facts: list of objects with row, column, value, unit, period, metric
 - evidence: short note about visible title/header/page context
 
 Rules:
 - Keep numeric values exactly as shown.
 - Do not invent missing values.
 - If image text is blurry but a parsed table is provided in the prompt, use the parsed table for summary.
-- Prefer a precise summary naming visible row labels, column labels, periods, units, and financial metric.
+- Prefer a precise summary naming visible row labels, column labels, periods, units, and financial metrics.
+- key_facts must contain only explicit table cells, not calculations.
 - If the image is not a table, set table_json to null and explain in summary."""
 
 
 IMAGE_PROMPT = """You are summarizing a chart, figure, or image from an SEC filing.
 Return JSON only with these keys:
+- visual_type: one of line_chart, bar_chart, pie_chart, table_like_chart, diagram, logo, photo, decorative, unreadable, other
+- title: visible title, or null
 - summary: 3 to 6 concise sentences describing the visual
+- x_axis: visible x-axis label or null
+- y_axis: visible y-axis label or null
+- legend: list of visible legend labels
+- metrics: list of financial/business metrics visible or clearly implied by labels
+- periods: list of visible years, quarters, dates, or ranges
 - key_values: short list of visible labels, ranges, values, or categories
+- trend: one short phrase such as upward, downward, mixed, stable, not_applicable, or unreadable
 - evidence: short note about visible title/header/page context
 
 Rules:
 - Keep numeric values exactly as shown.
 - Do not guess the business domain or chart meaning if labels are unreadable.
 - If text, axes, or legend are not readable, say they are not readable.
-- Describe only what is visually present: chart type, visible labels, trend direction, colors, and readable numbers.
+- Describe only what is visually present: chart type, visible labels, axes, legend, trend direction, colors, and readable numbers.
+- If labels do not identify a metric, keep metrics empty.
 - If the image is a logo, icon, signature, decorative banner, or unreadable crop, say so clearly and keep key_values empty."""
 
 
