@@ -1,4 +1,26 @@
 {
+  "text": {
+    "index_name": "text",
+    "model_name": "BAAI/bge-base-en-v1.5",
+    "chunks": 1318,
+    "dimension": 768,
+    "normalized_embeddings": true,
+    "metric": "inner_product_cosine",
+    "index_path": "data/index_bge/text.faiss",
+    "chunk_ids_path": "data/index_bge/text_chunk_ids.json",
+    "embeddings_path": null
+  },
+  "table": {
+    "index_name": "table",
+    "model_name": "BAAI/bge-base-en-v1.5",
+    "chunks": 1847,
+    "dimension": 768,
+    "normalized_embeddings": true,
+    "metric": "inner_product_cosine",
+    "index_path": "data/index_bge/table.faiss",
+    "chunk_ids_path": "data/index_bge/table_chunk_ids.json",
+    "embeddings_path": null
+  },
   "image": {
     "index_name": "image",
     "model_name": "BAAI/bge-base-en-v1.5",
@@ -8,6 +30,17 @@
     "metric": "inner_product_cosine",
     "index_path": "data/index_bge/image.faiss",
     "chunk_ids_path": "data/index_bge/image_chunk_ids.json",
+    "embeddings_path": null
+  },
+  "all": {
+    "index_name": "all",
+    "model_name": "BAAI/bge-base-en-v1.5",
+    "chunks": 3534,
+    "dimension": 768,
+    "normalized_embeddings": true,
+    "metric": "inner_product_cosine",
+    "index_path": "data/index_bge/all.faiss",
+    "chunk_ids_path": "data/index_bge/all_chunk_ids.json",
     "embeddings_path": null
   }
 }

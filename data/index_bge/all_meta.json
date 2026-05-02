@@ -5,11 +5,7 @@
   "dimension": 768,
   "normalized_embeddings": true,
   "metric": "inner_product_cosine",
-  "sources": [
-    "text",
-    "table",
-    "image"
-  ],
   "index_path": "data/index_bge/all.faiss",
-  "chunk_ids_path": "data/index_bge/all_chunk_ids.json"
+  "chunk_ids_path": "data/index_bge/all_chunk_ids.json",
+  "embeddings_path": null
 }
