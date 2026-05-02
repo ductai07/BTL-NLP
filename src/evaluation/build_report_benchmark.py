@@ -376,7 +376,26 @@ def build_table_queries(
     return queries, qrels, audit
 
 
-def visual_kind(summary: str) -> str | None:
+def visual_kind(chunk_or_summary: dict[str, Any] | str) -> str | None:
+    if isinstance(chunk_or_summary, dict):
+        metadata = chunk_or_summary.get("visual_metadata") or {}
+        visual_type = clean_text(metadata.get("visual_type")).lower()
+        summary = clean_text(chunk_or_summary.get("summary"))
+    else:
+        visual_type = ""
+        summary = clean_text(chunk_or_summary)
+
+    if visual_type:
+        visual_type = visual_type.replace("_", " ")
+        if visual_type in {"line chart", "line graph"}:
+            return "line chart"
+        if visual_type == "bar chart":
+            return "bar chart"
+        if visual_type == "pie chart":
+            return "pie chart"
+        if visual_type == "chart":
+            return "chart"
+
     lower = summary.lower()
     if "bar chart" in lower:
         return "bar chart"
@@ -389,19 +408,48 @@ def visual_kind(summary: str) -> str | None:
     return None
 
 
-def image_question(chunk: dict[str, Any]) -> str | None:
-    summary = clean_text(chunk.get("summary"))
-    kind = visual_kind(summary)
-    if not kind:
+def image_qa(chunk: dict[str, Any]) -> tuple[str, str, str] | None:
+    kind = visual_kind(chunk)
+    if kind not in {"line chart", "bar chart", "pie chart"}:
         return None
+
+    summary = clean_text(chunk.get("summary"))
+    if len(summary.split()) < 20:
+        return None
+
     company = company_name(chunk.get("source_pdf"))
-    vlm = chunk.get("vlm_output") or {}
-    key_values = vlm.get("key_values") or []
-    readable = [clean_text(value) for value in key_values if clean_text(value)]
-    if readable:
-        values = ", ".join(readable[:4])
-        return f"Which {company} filing image contains a {kind} with visible labels or values such as {values}?"
-    return f"Which {company} filing image contains a {kind}?"
+    metadata = chunk.get("visual_metadata") or {}
+    trend = clean_text(metadata.get("trend")).lower()
+    metrics = [clean_text(value) for value in metadata.get("metrics") or [] if clean_text(value)]
+    periods = [clean_text(value) for value in metadata.get("periods") or [] if clean_text(value)]
+    key_values = [clean_text(value) for value in metadata.get("key_values") or [] if clean_text(value)]
+
+    descriptor_parts = []
+    if metrics:
+        descriptor_parts.append(f"about {', '.join(metrics[:2])}")
+    if periods:
+        descriptor_parts.append(f"covering {', '.join(periods[:2])}")
+    if key_values:
+        descriptor_parts.append(f"with visible labels such as {', '.join(key_values[:3])}")
+    descriptor = " " + " ".join(descriptor_parts) if descriptor_parts else ""
+
+    if trend in {"upward", "downward", "mixed", "stable"}:
+        return (
+            f"What overall trend is shown in the {company} filing {kind}{descriptor}?",
+            trend,
+            "text",
+        )
+
+    return (
+        f"What type of visual is shown in the {company} filing image{descriptor}?",
+        kind,
+        "text",
+    )
+
+
+def image_question(chunk: dict[str, Any]) -> str | None:
+    qa = image_qa(chunk)
+    return qa[0] if qa else None
 
 
 def build_image_queries(chunks: list[dict[str, Any]], target: int) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -411,18 +459,16 @@ def build_image_queries(chunks: list[dict[str, Any]], target: int) -> tuple[list
     for chunk in chunks:
         if chunk.get("modality") != "image":
             continue
-        question = image_question(chunk)
-        if not question:
+        qa = image_qa(chunk)
+        if not qa:
             continue
-        summary = clean_text(chunk.get("summary"))
-        if len(summary.split()) < 20:
-            continue
-        candidates.append((chunk, question))
+        candidates.append((chunk, qa))
 
     used = set()
-    for chunk, question in candidates:
+    for chunk, qa in candidates:
         if len(queries) >= target:
             break
+        question, answer, answer_type = qa
         key = (chunk.get("source_pdf"), question)
         if key in used:
             continue
@@ -434,10 +480,10 @@ def build_image_queries(chunks: list[dict[str, Any]], target: int) -> tuple[list
             qid,
             "image",
             question,
-            visual_kind(clean_text(chunk.get("summary"))) or "chart",
-            "text",
+            answer,
+            answer_type,
             [chunk],
-            "natural_image_from_vlm_summary",
+            "visual_metadata_answerable_image",
         )
     return queries, qrels
 
