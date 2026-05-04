@@ -1,0 +1,121 @@
+# Config Stage 2 GFM-RAG SFT Fine-tuning
+# Bám sát gfmrag/workflow/config/gfm_rag/sft_training.yaml của tác giả
+# Chạy: python src/graph_retriever/train_stage2.py --config configs/graph_retriever/stage2_sft.yaml
+
+gfmrag_path: null
+disable_custom_rspmm: true
+
+# ─── Graph ───────────────────────────────────────────────────
+graph:
+  name: multifin_graph
+  graph_dir: data/graph
+  tensor_dir: data/graph_tensor
+  mention_relation_key: is_mentioned_in
+  # Embedding model: BAAI/bge-base-en-v1.5 (768 chiều)
+  # Tùy chọn tốt hơn cho T4:
+  #   - BAAI/bge-m3 (384 chiều) — nhanh hơn 40%, memory nhỏ hơn
+  #   - BAAI/bge-small-en-v1.5 (384 chiều) — tiết kiệm nhất
+  #   - BAAI/bge-large-en-v1.5 (1024 chiều) — chất lượng tốt nhất nếu có VRAM
+  relation_embedding_model: BAAI/bge-base-en-v1.5
+  relation_embedding_device: cpu   
+  relation_embedding_batch_size: 32
+  force_rebuild_rel_attr: false
+
+# ─── Stage 2 Data ────────────────────────────────────────────
+data:
+  stage2_json: data/qa/test_qa_stage2.json
+  # Question embedding model (cần khớp chiều với model teacher nếu có pre-embedded)
+  # Nếu chuyển model, phải rebuild question embeddings:
+  #   rm data/qa/test_question_embeddings.pt && python src/graph_retriever/train_stage2.py ...
+  text_emb_model: BAAI/bge-base-en-v1.5
+  emb_device: null
+  emb_cache: data/qa/test_question_embeddings.pt
+  train_ratio: 0.833
+  seed: 42
+
+# ─── Model (GNNRetriever + QueryNBFNet + SimpleRanker) ───────
+model:
+  entity_model:
+    _target_: gfmrag.models.ultra.models.QueryNBFNet
+    input_dim: 512
+    hidden_dims: [512, 512, 512, 512, 512, 512]
+    message_func: distmult
+    aggregate_func: sum
+    short_cut: true
+    layer_norm: true
+  # init_nodes_weight: true → dùng IDF weight từ entity→chunk map
+  # init_nodes_type: "chunk" → tính weight từ graph.target_to_other_types["chunk"]
+  init_nodes_weight: true
+  init_nodes_type: chunk
+
+# ─── Losses (hard chunk labels + optional distillation) ───────
+losses:
+  - name: bce_chunk
+    loss_type: bce
+    weight: 0.3
+    target_node_type: chunk
+    is_distillation_loss: false
+  - name: listce_chunk
+    loss_type: listce
+    weight: 0.7
+    target_node_type: chunk
+    is_distillation_loss: false
+  - name: mse_distill_chunk
+    loss_type: mse
+    weight: 0.1
+    target_node_type: chunk
+    is_distillation_loss: true
+
+# ─── Distillation Configuration ──────────────────────────────
+# Cho phép sử dụng teacher model embeddings mà không thay đổi graph tensor chính.
+# Mode "teacher_features": Load node & question embeddings từ folder riêng.
+# Mode "author_graph_x": Dùng graph.x chính (logic cũ, khuyến cáo NÊN dùng teacher_features).
+distillation:
+  enable: true
+  mode: teacher_features  # "teacher_features" hoặc "author_graph_x"
+  teacher_model: BAAI/bge-base-en-v1.5
+  # Folder chứa teacher node_x.pt và question_embeddings.pt
+  # Tạo bằng: python src/graph_retriever/prepare_distill_teacher_features.py
+  teacher_feature_dir: data/distill_features/bge-base-en-v1.5
+  target_node_type: chunk
+  normalize: true
+  temperature: 1.0  # Softmax temperature (1.0 = no scaling)
+  # loss_type và weight được định nghĩa trong losses section trên
+
+# ─── Training Arguments ──────────────────────────────────────
+training:
+  output_dir: outputs/graph_retriever/kgc_stage2_sft
+  pretrained_model_path: outputs/graph_retriever/kgc_gfm_typed_after_patch_full/model_besteefinal.pth
+  device: cuda
+  dtype: float32
+  lr: 5.0e-5
+  weight_decay: 0.01
+  epochs: 35
+  train_batch_size: 2
+  eval_batch_size: 2
+  logging_steps: 10
+  save_best_only: true
+  metric_for_best_model: chunk_mrr   # metrics format: {type}_{metric}
+  eval_strategy: epoch
+  eval_steps: null
+  max_steps_per_epoch: null
+
+# ─── Eval metrics ────────────────────────────────────────────
+# target_types: loại node cần đánh giá retrieval
+target_types: [entity, chunk]
+metrics:
+  - mrr
+  - hits@1
+  - hits@2
+  - hits@5
+  - hits@10
+  - hits@20
+  - recall@5
+  - recall@10
+  - recall@20
+
+sanity:
+  samples: 20
+  steps: 300
+  max_metric_drop_abs: 0.05
+  max_metric_drop_rel: 0.25

@@ -1,0 +1,122 @@
+# Config Stage 2 GFM-RAG SFT Fine-tuning with BGE-M3 Teacher Distillation
+# Variant của stage2_sft.yaml nhưng dùng BAAI/bge-m3 làm teacher model.
+# Student model vẫn dùng graph tensor chính (768 chiều).
+# Teacher embeddings được load từ data/distill_features/bge-m3/
+#
+# Chuẩn bị teacher features:
+#   python src/graph_retriever/prepare_distill_teacher_features.py \
+#     --config configs/graph_retriever/stage2_sft.yaml \
+#     --teacher-model BAAI/bge-m3 \
+#     --output-dir data/distill_features/bge-m3 \
+#     --force
+#
+# Chạy training:
+#   python src/graph_retriever/train_stage2.py \
+#     --config configs/graph_retriever/stage2_sft_distill_bge_m3.yaml \
+#     --run-sanity-first
+
+gfmrag_path: null
+disable_custom_rspmm: true
+
+# ─── Graph ───────────────────────────────────────────────────
+# Sử dụng graph tensor chính (không thay đổi)
+graph:
+  name: multifin_graph
+  graph_dir: data/graph
+  tensor_dir: data/graph_tensor
+  mention_relation_key: is_mentioned_in
+  relation_embedding_model: BAAI/bge-base-en-v1.5
+  relation_embedding_device: cpu   
+  relation_embedding_batch_size: 32
+  force_rebuild_rel_attr: false
+
+# ─── Stage 2 Data ────────────────────────────────────────────
+# Student vẫn dùng question embeddings cũ (768 chiều)
+data:
+  stage2_json: data/qa/test_qa_stage2.json
+  text_emb_model: BAAI/bge-base-en-v1.5
+  emb_device: null
+  emb_cache: data/qa/test_question_embeddings.pt
+  train_ratio: 0.833
+  seed: 42
+
+# ─── Model (GNNRetriever + QueryNBFNet + SimpleRanker) ───────
+# Student model không thay đổi
+model:
+  entity_model:
+    _target_: gfmrag.models.ultra.models.QueryNBFNet
+    input_dim: 512
+    hidden_dims: [512, 512, 512, 512, 512, 512]
+    message_func: distmult
+    aggregate_func: sum
+    short_cut: true
+    layer_norm: true
+  init_nodes_weight: true
+  init_nodes_type: chunk
+
+# ─── Losses (hard chunk labels + BGE-M3 distillation) ───────
+losses:
+  - name: bce_chunk
+    loss_type: bce
+    weight: 0.3
+    target_node_type: chunk
+    is_distillation_loss: false
+  - name: listce_chunk
+    loss_type: listce
+    weight: 0.7
+    target_node_type: chunk
+    is_distillation_loss: false
+  - name: mse_distill_chunk
+    loss_type: mse
+    weight: 0.1
+    target_node_type: chunk
+    is_distillation_loss: true
+
+# ─── Distillation Configuration (BGE-M3 Teacher) ──────────────
+# Thay đổi so với stage2_sft.yaml: teacher_model và teacher_feature_dir
+# Student vẫn giữ nguyên, chỉ distillation target thay đổi
+distillation:
+  enable: true
+  mode: teacher_features
+  teacher_model: BAAI/bge-m3  # ← Thay từ bge-base-en-v1.5
+  teacher_feature_dir: data/distill_features/bge-m3  # ← Thay từ bge-base-en-v1.5
+  target_node_type: chunk
+  normalize: true
+  temperature: 1.0
+
+# ─── Training Arguments ──────────────────────────────────────
+training:
+  output_dir: outputs/graph_retriever/kgc_stage2_sft_distill_bge_m3
+  pretrained_model_path: outputs/graph_retriever/kgc_gfm_typed_after_patch_full/model_besteefinal.pth
+  device: cuda
+  dtype: float32
+  lr: 5.0e-5
+  weight_decay: 0.01
+  epochs: 35
+  train_batch_size: 2
+  eval_batch_size: 2
+  logging_steps: 10
+  save_best_only: true
+  metric_for_best_model: chunk_mrr
+  eval_strategy: epoch
+  eval_steps: null
+  max_steps_per_epoch: null
+
+# ─── Eval metrics ────────────────────────────────────────────
+target_types: [entity, chunk]
+metrics:
+  - mrr
+  - hits@1
+  - hits@2
+  - hits@5
+  - hits@10
+  - hits@20
+  - recall@5
+  - recall@10
+  - recall@20
+
+sanity:
+  samples: 20
+  steps: 300
+  max_metric_drop_abs: 0.05
+  max_metric_drop_rel: 0.25
