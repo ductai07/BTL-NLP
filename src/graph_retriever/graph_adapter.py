@@ -141,6 +141,56 @@ def load_graph_bundle(
     return GraphBundle(data=data, mappings=mappings)
 
 
+def build_target_to_other_types(
+    graph,
+    relation2id: dict[str, int],
+    mention_key: str = DEFAULT_MENTION_RELATION_KEY,
+) -> dict[str, "torch.Tensor"]:
+    """
+    Build sparse mapping entity→chunk cho GNNRetriever.map_entities_to_docs.
+
+    Trả về dict {"chunk": sparse_coo_tensor(N, N)} trong đó:
+    - N = graph.num_nodes (tổng tất cả node types)
+    - Rows = global index của entity nodes (head của is_mentioned_in)
+    - Cols = global index của chunk nodes (tail của is_mentioned_in)
+    - Values = 1.0 per edge
+
+    SimpleRanker: sparse.mm(node_pred [B, N], ent2chunk [N, N]) → (B, N)
+    map_entities_to_docs lấy [:, chunk_indices] để điền chunk scores.
+    """
+    if mention_key not in relation2id:
+        logger.warning(
+            "Không tìm relation '%s' trong relation2id — target_to_other_types rỗng.",
+            mention_key,
+        )
+        return {}
+
+    rid = int(relation2id[mention_key])
+    ei = graph.target_edge_index.cpu()
+    rt = graph.target_edge_type.cpu()
+    mask = rt == rid
+    edges = ei[:, mask]  # shape (2, n_mention_edges); row0=entity, row1=chunk
+
+    if edges.size(1) == 0:
+        logger.warning("Không có cạnh '%s' trong graph.", mention_key)
+        return {}
+
+    n = int(graph.num_nodes)
+    ent_to_chunk = torch.sparse_coo_tensor(
+        edges,
+        torch.ones(edges.size(1), dtype=torch.float32),
+        size=(n, n),
+    ).coalesce()
+
+    logger.info(
+        "build_target_to_other_types: %d entity→chunk edges, sparse shape=(%d, %d)",
+        edges.size(1),
+        n,
+        n,
+    )
+    return {"chunk": ent_to_chunk}
+
+
 def resolve_entity_uid(mappings: GraphMappings, raw: str) -> str | None:
     """Chấp nhận uid đầy đủ hoặc tên gần đúng nếu trùng khoá trong entity2id."""
     if raw in mappings.entity2id:

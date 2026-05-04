@@ -87,6 +87,17 @@ def run_training(*, cfg: dict) -> Path:
         force=bool(cfg["graph"].get("force_rebuild_rel_attr", False)),
     )
 
+    # Filter target triple nếu entity_only=true (chỉ giữ entity→entity)
+    if cfg["training"].get("entity_only", False):
+        node_type = graph.node_type.cpu()
+        entity_type_id = list(graph.node_type_names).index("entity")
+        h_type = node_type[graph.target_edge_index[0]]
+        t_type = node_type[graph.target_edge_index[1]]
+        ee_mask = (h_type == entity_type_id) & (t_type == entity_type_id)
+        graph.target_edge_index = graph.target_edge_index[:, ee_mask]
+        graph.target_edge_type = graph.target_edge_type[ee_mask]
+        logger.info("entity_only=True: còn %d entity→entity triple", ee_mask.sum().item())
+
     graph = graph.to(device)
 
     # Import đúng các class từ repo tác giả sau khi bootstrap
@@ -145,6 +156,9 @@ def run_training(*, cfg: dict) -> Path:
         dtype=str(cfg["training"].get("dtype", "float32")),
     )
 
+    _ft = cfg["training"].get("fast_test", 500)
+    fast_test_val = None if _ft is None else int(_ft)
+
     train_loader = _SingleGraphDatasetLoader(str(cfg["graph"].get("name", "local_graph")), graph)
     trainer = KGCTrainer(
         output_dir=str(output_dir),
@@ -156,7 +170,7 @@ def run_training(*, cfg: dict) -> Path:
         num_negative=int(cfg["training"]["num_negative"]),
         strict_negative=bool(cfg["training"]["strict_negative"]),
         adversarial_temperature=float(cfg["training"]["adversarial_temperature"]),
-        fast_test=int(cfg["training"].get("fast_test", 500)),
+        fast_test=fast_test_val,
         metrics=list(cfg["training"].get("metrics", ["mr", "mrr", "hits@10"])),
     )
 

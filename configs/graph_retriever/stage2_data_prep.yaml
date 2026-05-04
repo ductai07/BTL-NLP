@@ -1,0 +1,31 @@
+# Config chuẩn bị dữ liệu Stage 2 GFM-RAG
+# Chạy: python src/graph_retriever/prepare_stage2_data.py --config configs/graph_retriever/stage2_data_prep.yaml
+
+# Paths
+qa_path: data/qa/test_qa.jsonl
+nodes_csv: data/graph/nodes.csv
+tensor_dir: data/graph_tensor
+output_path: data/qa/test_qa_stage2.json
+cache_dir: tmp/stage2_data_prep_test
+
+# Relation key cho entity→chunk edges
+mention_relation_key: is_mentioned_in
+
+# Embedding model (dùng cho entity linking fallback và chunk matching)
+# Cùng model với KGC training để features đồng nhất
+embedding_model: BAAI/bge-base-en-v1.5
+embedding_device: null  # null = auto
+
+# Entity Linking config
+el_embed_threshold: 0.82  # Ngưỡng cosine similarity cho EL embedding fallback
+
+# Skip samples không map được
+skip_no_chunk: true   # Bỏ sample không có positive chunk
+skip_no_start: false  # Giữ sample không có start_nodes.entity (train vẫn được)
+
+# NER API (GPT-OSS-20B hoặc tương thích OpenAI)
+# Đặt api_key và base_url theo môi trường
+ner_api:
+  base_url: https://integrate.api.nvidia.com/v1
+  api_key: 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
+  model: openai/gpt-oss-20b

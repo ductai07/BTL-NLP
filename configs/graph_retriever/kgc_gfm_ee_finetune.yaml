@@ -1,0 +1,46 @@
+gfmrag_path: null
+disable_custom_rspmm: true
+
+graph:
+  name: multifin_graph
+  graph_dir: data/graph
+  tensor_dir: data/graph_tensor
+  build_relation_graph: false
+  mention_relation_key: is_mentioned_in
+
+  relation_embedding_model: BAAI/bge-base-en-v1.5
+  relation_embedding_device: null
+  relation_embedding_batch_size: 32
+  force_rebuild_rel_attr: false
+
+model:
+  entity_model:
+    _target_: gfmrag.models.ultra.models.QueryNBFNet
+    input_dim: 512
+    hidden_dims: [512, 512, 512, 512, 512, 512]
+    message_func: distmult
+    aggregate_func: sum
+    short_cut: true
+    layer_norm: true
+
+training:
+  output_dir: outputs/graph_retriever/kgc_ee_finetune
+  pretrained_model_path: outputs/graph_retriever/kgc_gfm_typed_after_patch_full/model_best.pth
+  device: cuda
+  lr: 1.0e-5
+  epochs: 10
+  train_batch_size: 2
+  eval_batch_size: 1
+  logging_steps: 20
+  dtype: float32
+
+  entity_only: true
+
+  num_negative: 128
+  strict_negative: true
+  adversarial_temperature: 1.0
+  fast_test: null
+  metrics: [mr, mrr, hits@1, hits@3, hits@10]
+  save_best_only: true
+  metric_for_best_model: typed_mrr
+  eval_strategy: epoch
