@@ -35,5 +35,8 @@ requests
 pillow
 playwright
 
+# Demo UI
+streamlit
+
 # Optional: graph partition cho split-graph training
 pymetis
