@@ -1,0 +1,49 @@
+{
+  "benchmark_dir": "data/benchmark_visual_metadata",
+  "queries": 8,
+  "qrels": 8,
+  "top_k": 10,
+  "filter_source": false,
+  "rerank": false,
+  "tag_aware": false,
+  "metrics": {
+    "image": {
+      "queries": 8,
+      "hit@1": 0.5,
+      "recall@1": 0.5,
+      "precision@1": 0.5,
+      "mrr@1": 0.5,
+      "hit@3": 0.625,
+      "recall@3": 0.625,
+      "precision@3": 0.20833333333333331,
+      "mrr@3": 0.5416666666666666,
+      "hit@5": 0.75,
+      "recall@5": 0.75,
+      "precision@5": 0.15000000000000002,
+      "mrr@5": 0.5666666666666667,
+      "hit@10": 0.75,
+      "recall@10": 0.75,
+      "precision@10": 0.07500000000000001,
+      "mrr@10": 0.5666666666666667
+    },
+    "all": {
+      "queries": 8,
+      "hit@1": 0.5,
+      "recall@1": 0.5,
+      "precision@1": 0.5,
+      "mrr@1": 0.5,
+      "hit@3": 0.625,
+      "recall@3": 0.625,
+      "precision@3": 0.20833333333333331,
+      "mrr@3": 0.5416666666666666,
+      "hit@5": 0.75,
+      "recall@5": 0.75,
+      "precision@5": 0.15000000000000002,
+      "mrr@5": 0.5666666666666667,
+      "hit@10": 0.75,
+      "recall@10": 0.75,
+      "precision@10": 0.07500000000000001,
+      "mrr@10": 0.5666666666666667
+    }
+  }
+}

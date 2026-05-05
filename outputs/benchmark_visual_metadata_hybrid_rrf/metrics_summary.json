@@ -1,0 +1,51 @@
+{
+  "benchmark_dir": "data/benchmark_visual_metadata",
+  "queries": 8,
+  "qrels": 8,
+  "top_k": 10,
+  "candidate_k": 50,
+  "rrf_k": 60,
+  "method": "hybrid_rrf_bm25_dense",
+  "filter_source": false,
+  "rerank": false,
+  "metrics": {
+    "image": {
+      "queries": 8,
+      "hit@1": 0.5,
+      "recall@1": 0.5,
+      "precision@1": 0.5,
+      "mrr@1": 0.5,
+      "hit@3": 0.875,
+      "recall@3": 0.875,
+      "precision@3": 0.29166666666666663,
+      "mrr@3": 0.6666666666666666,
+      "hit@5": 0.875,
+      "recall@5": 0.875,
+      "precision@5": 0.17500000000000002,
+      "mrr@5": 0.6666666666666666,
+      "hit@10": 1.0,
+      "recall@10": 1.0,
+      "precision@10": 0.1,
+      "mrr@10": 0.6845238095238095
+    },
+    "all": {
+      "queries": 8,
+      "hit@1": 0.5,
+      "recall@1": 0.5,
+      "precision@1": 0.5,
+      "mrr@1": 0.5,
+      "hit@3": 0.875,
+      "recall@3": 0.875,
+      "precision@3": 0.29166666666666663,
+      "mrr@3": 0.6666666666666666,
+      "hit@5": 0.875,
+      "recall@5": 0.875,
+      "precision@5": 0.17500000000000002,
+      "mrr@5": 0.6666666666666666,
+      "hit@10": 1.0,
+      "recall@10": 1.0,
+      "precision@10": 0.1,
+      "mrr@10": 0.6845238095238095
+    }
+  }
+}

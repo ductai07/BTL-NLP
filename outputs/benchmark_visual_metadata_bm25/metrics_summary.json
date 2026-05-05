@@ -1,0 +1,48 @@
+{
+  "benchmark_dir": "data/benchmark_visual_metadata",
+  "queries": 8,
+  "qrels": 8,
+  "top_k": 10,
+  "method": "bm25",
+  "filter_source": false,
+  "metrics": {
+    "image": {
+      "queries": 8,
+      "hit@1": 0.625,
+      "recall@1": 0.625,
+      "precision@1": 0.625,
+      "mrr@1": 0.625,
+      "hit@3": 0.875,
+      "recall@3": 0.875,
+      "precision@3": 0.29166666666666663,
+      "mrr@3": 0.7291666666666667,
+      "hit@5": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 0.2,
+      "mrr@5": 0.7604166666666666,
+      "hit@10": 1.0,
+      "recall@10": 1.0,
+      "precision@10": 0.1,
+      "mrr@10": 0.7604166666666666
+    },
+    "all": {
+      "queries": 8,
+      "hit@1": 0.625,
+      "recall@1": 0.625,
+      "precision@1": 0.625,
+      "mrr@1": 0.625,
+      "hit@3": 0.875,
+      "recall@3": 0.875,
+      "precision@3": 0.29166666666666663,
+      "mrr@3": 0.7291666666666667,
+      "hit@5": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 0.2,
+      "mrr@5": 0.7604166666666666,
+      "hit@10": 1.0,
+      "recall@10": 1.0,
+      "precision@10": 0.1,
+      "mrr@10": 0.7604166666666666
+    }
+  }
+}

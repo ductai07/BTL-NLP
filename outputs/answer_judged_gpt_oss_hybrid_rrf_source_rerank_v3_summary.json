@@ -1,0 +1,45 @@
+{
+  "input": "outputs/answer_generation_gpt_oss_hybrid_rrf_source_rerank_v3_gold_only.jsonl",
+  "output": "outputs/answer_judged_gpt_oss_hybrid_rrf_source_rerank_v3.jsonl",
+  "model": "openai/gpt-oss-20b",
+  "base_url": "https://integrate.api.nvidia.com/v1",
+  "rows": 59,
+  "metrics": {
+    "table": {
+      "total": 26,
+      "correct": 19,
+      "partial": 0,
+      "incorrect": 4,
+      "unanswerable": 3,
+      "accuracy": 0.7307692307692307,
+      "partial_rate": 0.0
+    },
+    "all": {
+      "total": 59,
+      "correct": 45,
+      "partial": 0,
+      "incorrect": 9,
+      "unanswerable": 5,
+      "accuracy": 0.7627118644067796,
+      "partial_rate": 0.0
+    },
+    "image": {
+      "total": 18,
+      "correct": 16,
+      "partial": 0,
+      "incorrect": 2,
+      "unanswerable": 0,
+      "accuracy": 0.8888888888888888,
+      "partial_rate": 0.0
+    },
+    "multimodal": {
+      "total": 15,
+      "correct": 10,
+      "partial": 0,
+      "incorrect": 3,
+      "unanswerable": 2,
+      "accuracy": 0.6666666666666666,
+      "partial_rate": 0.0
+    }
+  }
+}
